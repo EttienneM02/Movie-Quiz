@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08080c">
+  <meta name="description" content="Pick a movie. Prove you know it. A cinematic movie quiz arcade.">
+  <title>Reel Quiz — Movie Trivia Arcade</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="js/data.js" defer></script>
+  <script src="js/questions.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="brand" href="#home" data-screen-link="home" aria-label="Reel Quiz home">
+        <span class="brand-mark" aria-hidden="true">RQ</span>
+        <span>REEL<span class="brand-accent">QUIZ</span></span>
+      </a>
+      <div class="header-status">
+        <span class="status-light" aria-hidden="true"></span>
+        <span>THE MOVIE ARCADE</span>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="screen home-screen" id="home" data-screen aria-labelledby="home-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="eyebrow-line"></span> A CINEMATIC TRIVIA CHALLENGE</p>
+          <h1 id="home-title" tabindex="-1">HOW WELL DO<br>YOU <span class="text-gradient">KNOW</span><br>MOVIES?</h1>
+          <p class="hero-description">Choose a genre. Pick a movie.<br>Prove every frame counts.</p>
+          <div class="hero-actions">
+            <button class="button button-primary button-large" type="button" data-action="play">
+              PLAY NOW <span aria-hidden="true">↗</span>
+            </button>
+            <p class="microcopy">15 MOVIES <span aria-hidden="true">·</span> 5 GENRES <span aria-hidden="true">·</span> ONE BIG SCREEN</p>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-orbit orbit-one"></div>
+          <div class="hero-orbit orbit-two"></div>
+          <div class="hero-poster">
+            <span class="poster-kicker">YOUR NEXT</span>
+            <span class="poster-title">CULT<br>CLASSIC</span>
+            <span class="poster-symbol">✳</span>
+            <span class="poster-footer">IS WAITING</span>
+          </div>
+          <span class="floating-label label-top">01 / 05<br><b>PICK A GENRE</b></span>
+          <span class="floating-label label-bottom">LIGHTS. CAMERA.<br><b>QUIZ TIME.</b></span>
+        </div>
+        <div class="home-footer">
+          <div class="high-score">
+            <span class="high-score-icon" aria-hidden="true">✦</span>
+            <span><span class="meta-label">YOUR BEST SCORE</span><strong id="home-high-score">0</strong></span>
+          </div>
+          <div class="home-footer-actions">
+            <span class="footer-note">MADE FOR THE MOVIE-OBSESSED</span>
+            <button class="button button-quiet reset-button" type="button" data-action="reset-progress">RESET PROGRESS</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen selection-screen" id="genres" data-screen aria-labelledby="genres-title" hidden>
+        <div class="screen-heading">
+          <p class="eyebrow"><span class="eyebrow-line"></span> STEP 01 <span class="heading-divider">/</span> THE FIRST PICK</p>
+          <h1 id="genres-title" tabindex="-1">CHOOSE YOUR <span class="text-gradient">GENRE</span></h1>
+          <p class="screen-description">Set the scene. Which kind of story are you in the mood for?</p>
+        </div>
+        <div class="genre-grid" id="genre-grid"></div>
+        <div class="screen-footer">
+          <button class="button button-quiet" type="button" data-action="home"><span aria-hidden="true">←</span> HOME</button>
+          <span class="selection-hint">PICK YOUR CINEMA UNIVERSE <span aria-hidden="true">✳</span></span>
+        </div>
+      </section>
+
+      <section class="screen selection-screen" id="movies" data-screen aria-labelledby="movies-title" hidden>
+        <div class="screen-heading">
+          <p class="eyebrow"><span class="eyebrow-line"></span> STEP 02 <span class="heading-divider">/</span> PICK YOUR FILM</p>
+          <h1 id="movies-title" tabindex="-1"><span id="selected-genre-name">GENRE</span> <span class="text-gradient">NIGHT</span></h1>
+          <p class="screen-description">Choose a movie and show us what you remember.</p>
+        </div>
+        <div class="movie-grid" id="movie-grid"></div>
+        <div class="screen-footer">
+          <button class="button button-quiet" type="button" data-action="back-to-genres"><span aria-hidden="true">←</span> ALL GENRES</button>
+          <span class="selection-hint" id="movie-count"></span>
+        </div>
+      </section>
+
+      <section class="screen selection-screen modes-screen" id="modes" data-screen aria-labelledby="modes-title" hidden>
+        <div class="screen-heading">
+          <p class="eyebrow"><span class="eyebrow-line"></span> STEP 03 <span class="heading-divider">/</span> SET THE CHALLENGE</p>
+          <h1 id="modes-title" tabindex="-1">CHOOSE YOUR <span class="text-gradient">MODE</span></h1>
+          <p class="screen-description" id="mode-movie-title">Choose how you want to play.</p>
+          <p class="mode-round-note">Every round has eight questions. Your chosen mode leads; other categories keep the challenge varied.</p>
+        </div>
+        <div class="mode-grid" id="mode-grid"></div>
+        <div class="screen-footer">
+          <button class="button button-quiet" type="button" data-action="back-to-movies"><span aria-hidden="true">←</span> MOVIES</button>
+          <span class="selection-hint">PICK A MODE TO START PLAYING</span>
+        </div>
+      </section>
+
+      <section class="screen quiz-screen" id="quiz" data-screen aria-labelledby="quiz-title" hidden>
+        <div class="quiz-topline">
+          <div>
+            <p class="eyebrow"><span class="eyebrow-line"></span> YOUR MOVIE CHALLENGE</p>
+            <h1 id="quiz-title" tabindex="-1">THE <span class="text-gradient">QUIZ</span></h1>
+            <p class="quiz-movie-title" id="quiz-movie-title"></p>
+          </div>
+          <div class="score-panel" aria-live="polite">
+            <span class="meta-label">CURRENT SCORE</span>
+            <strong class="score-value" id="quiz-score">0</strong>
+            <span class="score-bonus" id="score-pop" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="question-progress">
+          <div class="question-progress-label">
+            <span id="question-number">QUESTION 1 / 5</span>
+            <span id="question-mode-label">CLASSIC TRIVIA</span>
+          </div>
+          <progress id="question-progress" max="8" value="1" aria-label="Quiz progress"></progress>
+          <div class="quiz-stats">
+            <div class="timer-panel" id="timer-panel">
+              <span class="stat-label">TIME LEFT</span>
+              <strong id="timer-value" aria-live="off">15</strong>
+              <progress id="timer-progress" max="15" value="15" aria-label="Time remaining"></progress>
+            </div>
+            <div class="streak-panel" id="streak-panel" aria-live="polite">
+              <span class="stat-label">BEST STREAK</span>
+              <strong id="streak-value">0</strong>
+              <span class="streak-current" id="current-streak">No active streak</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="quiz-question-panel">
+          <p class="question-type" id="question-type">MULTIPLE CHOICE</p>
+          <h2 class="question-prompt" id="question-prompt" tabindex="-1"></h2>
+          <div class="answer-grid" id="answer-grid" role="group" aria-label="Answer choices"></div>
+          <div class="answer-feedback" id="answer-feedback" role="status" aria-live="polite" hidden>
+            <div class="feedback-copy">
+              <strong id="feedback-title"></strong>
+              <p id="feedback-explanation"></p>
+            </div>
+            <button class="button button-primary" type="button" data-action="continue">
+              NEXT <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="screen results-screen" id="results" data-screen aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <p class="eyebrow"><span class="eyebrow-line"></span> FINAL CUT <span class="heading-divider">/</span> CHALLENGE COMPLETE</p>
+          <div class="record-banner" id="record-banner" hidden>✦ NEW ARCADE HIGH SCORE ✦</div>
+          <h1 id="results-title" tabindex="-1">QUIZ <span class="text-gradient">COMPLETE</span></h1>
+          <p class="results-movie" id="results-movie-title"></p>
+          <strong class="results-score" id="results-score">0</strong>
+          <p class="results-rating" id="results-rating">NICE RUN!</p>
+        </div>
+
+        <div class="results-stats" aria-label="Quiz results">
+          <div><span>ACCURACY</span><strong id="results-accuracy">0%</strong></div>
+          <div><span>CORRECT</span><strong id="results-correct">0 / 0</strong></div>
+          <div><span>BEST STREAK</span><strong id="results-streak">0</strong></div>
+          <div><span>TIME BONUS</span><strong id="results-time-bonus">+0</strong></div>
+        </div>
+
+        <div class="results-mastery">
+          <div class="mastery-heading">
+            <div><span class="stat-label">MOVIE MASTERY</span><strong id="results-mastery-value">0%</strong></div>
+            <span id="results-mastery-record">FIRST RUN</span>
+          </div>
+          <progress id="results-mastery-progress" max="100" value="0" aria-label="Movie mastery"></progress>
+          <p id="results-mastery-copy"></p>
+        </div>
+
+        <div class="results-actions">
+          <button class="button button-primary" type="button" data-action="replay-quiz">PLAY AGAIN <span aria-hidden="true">↻</span></button>
+          <button class="button button-secondary" type="button" data-action="show-mastery">MOVIE MASTERY</button>
+          <button class="button button-quiet" type="button" data-action="back-to-movies">CHOOSE ANOTHER MOVIE</button>
+          <button class="button button-quiet" type="button" data-action="home">BACK TO HOME</button>
+        </div>
+      </section>
+
+      <section class="screen mastery-screen" id="mastery" data-screen aria-labelledby="mastery-title" hidden>
+        <div class="screen-heading">
+          <p class="eyebrow"><span class="eyebrow-line"></span> YOUR COLLECTION <span class="heading-divider">/</span> PLAYER PROGRESS</p>
+          <h1 id="mastery-title" tabindex="-1">MOVIE <span class="text-gradient">MASTERY</span></h1>
+          <p class="screen-description" id="mastery-movie-title"></p>
+        </div>
+        <div class="mastery-card">
+          <div class="mastery-card-top">
+            <span class="stat-label">MASTERY</span>
+            <strong id="mastery-percentage">0%</strong>
+          </div>
+          <progress id="mastery-progress" max="100" value="0" aria-label="Movie mastery"></progress>
+          <div class="mastery-record-grid">
+            <div><span>GAMES PLAYED</span><strong id="mastery-games">0</strong></div>
+            <div><span>BEST SCORE</span><strong id="mastery-best-score">0</strong></div>
+            <div><span>BEST STREAK</span><strong id="mastery-best-streak">0</strong></div>
+            <div><span>ACCURACY</span><strong id="mastery-accuracy">0%</strong></div>
+            <div><span>QUESTIONS ANSWERED</span><strong id="mastery-answered">0</strong></div>
+            <div><span>CORRECT ANSWERS</span><strong id="mastery-correct">0</strong></div>
+          </div>
+        </div>
+        <div class="screen-footer">
+          <button class="button button-quiet" type="button" data-action="back-to-results"><span aria-hidden="true">←</span> RESULTS</button>
+          <button class="button button-quiet" type="button" data-action="back-to-movies">ALL MOVIES <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <p class="app-notice" id="app-notice" role="status" aria-live="polite" hidden></p>
+      <div class="sr-only" id="screen-announcement" aria-live="polite"></div>
+    </main>
+  </div>
+</body>
+</html>
